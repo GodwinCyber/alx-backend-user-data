@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""Module Three Create logger"""
+"""Module Four Connect to secure database"""
 
 import re
+import os
 from typing import List
 import logging
+import mysql.connector
+from mysql.connector import MySQLConnection
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
@@ -78,3 +81,26 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> MySQLConnection:
+    """Implement a get_db function that returns a connector to the database
+        (mysql.connector.connection.MySQLConnection object
+        Use the os module to obtain credentials from the environment
+        Use the module mysql-connector-python to connect to the MySQL
+        database (pip3 install mysql-connector-python)
+        In this task, you will connect to a secure holberton database to read
+        a users table. The database is protected by a username and password
+        that are set as environment variables on the server named
+        PERSONAL_DATA_DB_USERNAME (set the default as “root”),
+        PERSONAL_DATA_DB_PASSWORD (set the default as an empty string) and
+        PERSONAL_DATA_DB_HOST (set the default as “localhost”).
+        The database name is stored in PERSONAL_DATA_DB_NAME.
+    """
+    db = mysql.connector.connect(
+        user=os.getenv("PERSONAL_DATA_DB_USERNAME", "root"),
+        password=os.getenv("PERSONAL_DATA_DB_PASSWORD", ""),
+        host=os.getenv("PERSONAL_DATA_DB_HOST", "localhost"),
+        database=os.getenv("PERSONAL_DATA_DB_NAME", "holberton")
+    )
+    return db
