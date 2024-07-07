@@ -108,3 +108,36 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         port=3306,
     )
     return db
+
+
+def main():
+    """Implement a main function that take no arguments and return nothing
+        The function will obtain a database connection using get_db and
+        retrieve all rows in the users table and display each row under a
+        filtered format like this:
+        [HOLBERTON] user_data INFO 2019-11-19 18:37:59,596: name=***; email=***
+        phone=***; ssn=***; password=***; ip=e848:e856:4e0b:a056:54ad:1e98:
+        8110:ce1b; last_login=2019-11-14T06:16:24; user_agent=Mozilla/5.0
+        (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; KTXN);
+        Filtered fields:name, email phone, ssn, password
+        Only your main function should run when the module is executed.
+    """
+    logger = get_logger()
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+    for row in rows:
+        log_message = (
+            "name={}; email={}; phone={}; ssn={}; password={}; ip={}; "
+            "last_login={}; user_agent={}".format(
+                row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+            )
+        )
+        logger.info(log_message)
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
