@@ -6,7 +6,6 @@ import os
 from typing import List
 import logging
 import mysql.connector
-from mysql.connector import MySQLConnection
 
 PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
@@ -83,7 +82,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> MySQLConnection:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """Implement a get_db function that returns a connector to the database
         (mysql.connector.connection.MySQLConnection object
         Use the os module to obtain credentials from the environment
