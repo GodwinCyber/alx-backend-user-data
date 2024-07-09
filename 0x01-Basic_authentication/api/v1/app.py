@@ -25,6 +25,17 @@ def unauthorized(error):
     return jsonify({"error": "Unauthorized"}), 401
 
 
+@app.errorhandler(403)
+def forbidden(error):
+    """ forbidden handler:
+    Args:
+        a JSON: {"error": "Forbidden"}
+        status code 403
+        you must use jsonify from Flask
+    """
+    return jsonify({"error": "Forbidden"}), 403
+
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
