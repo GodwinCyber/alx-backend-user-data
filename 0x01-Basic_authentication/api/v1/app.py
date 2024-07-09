@@ -14,6 +14,18 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
+@pp.arrorhandler(401)
+def unauthorized(error):
+    """ unauthorized handler:
+    Args:
+        a JSON: {"error": "Unauthorized"}
+        status code 401
+        you must use jsonify from Flask
+    """
+    return jsonify({"error": "Unauthorized"}), 401
+
+
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler

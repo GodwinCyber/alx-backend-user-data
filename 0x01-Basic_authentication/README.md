@@ -15,6 +15,7 @@
 <li><a href="/rltoken/RpaPRyKx1rdHgRSUyuPfeg" title="Base64 in Python" target="_blank">Base64 in Python</a> </li>
 <li><a href="/rltoken/WlARq8tQPUGQq5VphLKM4w" title="HTTP header Authorization" target="_blank">HTTP header Authorization</a> </li>
 <li><a href="/rltoken/HG5WXgSja5kMa29fbMd9Aw" title="Flask" target="_blank">Flask</a> </li>
+<li><a href="https://flask.palletsprojects.com/en/1.1.x/patterns/errorpages/" title="abort - Custom Error Pages" target="_blank">abort - Custom Error Pages</a> </li>
 <li><a href="/rltoken/br6Rp4iMaOce6EAC-JQnOw" title="Base64 - concept" target="_blank">Base64 - concept</a> </li>
 </ul>
 
