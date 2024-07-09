@@ -14,7 +14,7 @@ app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
-@pp.arrorhandler(401)
+@app.errorhandler(401)
 def unauthorized(error):
     """ unauthorized handler:
     Args:

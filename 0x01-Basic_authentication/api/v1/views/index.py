@@ -34,5 +34,4 @@ def unauthorized() -> str:
       This endpoint must raise a 401 error by using abort - Custom Error Pages
       By calling abort(401), the error handler for 401 will be executed.
     """
-    abort(401)
-    return jsonify({"error": "Unauthorized"})
+    return abort(401)
