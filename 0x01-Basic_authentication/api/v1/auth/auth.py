@@ -36,7 +36,8 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """public method def authorization_header(self, request=None) -> str:
             If request is None, returns None
-            If request doesn’t contain the header key Authorization, returns None
+            If request doesn’t contain the header key Authorization, returns
+            None
             Otherwise, return the value of the header request Authorization
         Returns:
             tNone - request will be the Flask request object
