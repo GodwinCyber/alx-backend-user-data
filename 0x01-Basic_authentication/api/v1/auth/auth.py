@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Module Auth"""
 
+import re
 from typing import List, TypeVar
 from flask import request
 
@@ -18,7 +19,7 @@ class Auth:
             Returns False if path is in excluded_paths
         Cases:
             You can assume excluded_paths contains string path always
-            ending by a / This method must be slash t lerant:
+            ending by a / This method must be slash tolerant:
             path=/api/v1/status and path=/api/v1/status/ must be
             returned False if excluded_paths contains /api/v1/status/
         """
@@ -40,11 +41,11 @@ class Auth:
             None
             Otherwise, return the value of the header request Authorization
         Returns:
-            tNone - request will be the Flask request object
+            None - request will be the Flask request object
         """
         if request is None:
-            return request.headers.get('Authorization', None)
-        return None
+            return None
+        return request.headers.get('Authorization')
 
     def current_user(self, request=None) -> TypeVar('User'):
         """public method def current_user(self, request=None) ->

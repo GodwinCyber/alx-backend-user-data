@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-""" Module of Index views
+"""Module of Index views
 """
 from flask import jsonify, abort
 from api.v1.views import app_views
+from models.user import User
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
@@ -20,7 +21,6 @@ def stats() -> str:
     Return:
       - the number of each objects
     """
-    from models.user import User
     stats = {}
     stats['users'] = User.count()
     return jsonify(stats)
@@ -34,10 +34,10 @@ def unauthorized() -> str:
       This endpoint must raise a 401 error by using abort - Custom Error Pages
       By calling abort(401), the error handler for 401 will be executed.
     """
-    return abort(401)
+    abort(401)
 
 
-@app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
+@app_views.route('/forbidden/', methods=['GET'], strict_slashes=False)
 def forbidden() -> str:
     """GET /api/v1/forbidden:
     Args:
@@ -46,4 +46,4 @@ def forbidden() -> str:
     Return:
       error": "Forbidden
     """
-    return abort(403)
+    abort(403)
