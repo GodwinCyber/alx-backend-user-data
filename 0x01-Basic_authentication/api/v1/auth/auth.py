@@ -30,22 +30,17 @@ class Auth:
             /api/v1/status will return False
             /api/v1/stats will return False
         """
-        if path is None:
+        if path is None or excluded_paths is None or len(excluded_paths) == 0:
             return True
-        if excluded_paths is None or len(excluded_paths) == 0:
-            return True
-        if not path.endswith('/'):
-            path += '/'
-        for excluded_path in excluded_paths:
-            if excluded_path.endswith('*'):
-                prefix = excluded_path.rstrip('*')
-                if path.startswith(prefix):
-                    return False
-            else:
-                if excluded_path.endswith('/'):
-                    excluded_path += '/'
-                if path == excluded_path
-                    return False
+        if path[-1] == "/":
+            path = path[:-1]
+        for path_excluded in excluded_paths:
+            if path_excluded[-1] == "/":
+                path_excluded = path_excluded[:-1]
+            if path == path_excluded:
+                return False
+            if path_excluded.endswith("*") and path.startswith(path_excluded[:-1]):
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
