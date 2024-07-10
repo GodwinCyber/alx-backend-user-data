@@ -22,6 +22,13 @@ class Auth:
             ending by a / This method must be slash tolerant:
             path=/api/v1/status and path=/api/v1/status/ must be
             returned False if excluded_paths contains /api/v1/status/
+        Improve:
+            Improve def require_auth(self, path, excluded_paths)
+            by allowing * at the end of excluded paths.
+            Example for excluded_paths = ["/api/v1/stat*"]:
+            /api/v1/users will return True
+            /api/v1/status will return False
+            /api/v1/stats will return False
         """
         if path is None:
             return True
@@ -30,8 +37,15 @@ class Auth:
         if not path.endswith('/'):
             path += '/'
         for excluded_path in excluded_paths:
-            if excluded_path.endswith('/') and path == excluded_path:
-                return False
+            if excluded_path.endswith('*'):
+                prefix = excluded_path.rstrip('*')
+                if path.startswith(prefix):
+                    return False
+            else:
+                if excluded_path.endswith('/'):
+                    excluded_path += '/'
+                if path == excluded_path
+                    return False
         return True
 
     def authorization_header(self, request=None) -> str:
