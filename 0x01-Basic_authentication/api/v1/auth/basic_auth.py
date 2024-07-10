@@ -31,7 +31,7 @@ class BasicAuth(Auth):
             return None
         return authorization_header.split(" ")[1]
 
-    def decode_base64_authorization_header(
+    def decoded_base64_authorization_header(
         self, base64_authorization_header: str
     ) -> str:
         """Decodes base64 authorization header:
@@ -55,7 +55,7 @@ class BasicAuth(Auth):
             return None
 
     def extract_user_credentials(
-        self, decode_base64_authorization_header: str
+        self, decoded_base64_authorization_header: str
     ) -> (str, str):
         """Extracts user credentials: class BasicAuth that returns
             the user email and password from the Base64 decoded value.
@@ -70,14 +70,14 @@ class BasicAuth(Auth):
             values must be separated by a : You can assume
             decoded_base64_authorization_header will contain only one:
         """
-        if decode_base64_authorization_header is None:
+        if decoded_base64_authorization_header is None:
             return None, None
-        if not isinstance(decode_base64_authorization_header, str):
+        if not isinstance(decoded_base64_authorization_header, str):
             return None, None
-        if ":" not in decode_base64_authorization_header:
+        if ":" not in decoded_base64_authorization_header:
             return None, None
         user_email, user_password = (
-            decode_base64_authorization_header.split(":", 1)
+            decoded_base64_authorization_header.split(":", 1)
         )
         return user_email, user_password
 
@@ -119,7 +119,7 @@ class BasicAuth(Auth):
         Return:
             You must use authorization_header
             You must use extract_base64_authorization_header
-            You must use decode_base64_authorization_header
+            You must use decoded_base64_authorization_header
             You must use extract_user_credentials
             You must use user_object_from_credentials
         Note:
@@ -135,7 +135,7 @@ class BasicAuth(Auth):
         if not base64_authorization_header:
             return None
         user_credentials = (
-            self.decode_base64_authorization_header(
+            self.decoded_base64_authorization_header(
                 base64_authorization_header
             )
         )
