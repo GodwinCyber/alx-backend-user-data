@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """View Session Authentication Module"""
 
-from api.v1.viws import app_view
+from api.v1.views import app_views
 from flask import request, jsonify, abort
 from models.user import User
+import os
 from os import getenv
 
 
-@app_view.route('/auth_session/login', methods=['POST'], strict_slashes=False)
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login():
     """You must use request.form.get() to retrieve email and password
         parameters
