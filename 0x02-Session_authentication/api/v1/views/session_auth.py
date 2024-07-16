@@ -54,20 +54,24 @@ def login():
     response.set_cookie(session_name, session_id)
     return response
 
-@app_views.route('/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+
+@app_views.route(
+    '/auth_session/logout', methods=['DELETE'], strict_slashes=False
+)
 def logout():
     """Handles the session logout: Update the class SessionAuth by adding a new
         method def destroy_session(self, request=None): that deletes the user
         session / logout: If the request is equal to None, return False
-        If the request doesn’t contain the Session ID cookie, return False - you
-        must use self.session_cookie(request) If the Session ID of the request is
-        not linked to any User ID, return False - you must use
-        self.user_id_for_session_id(...) Otherwise, delete in
-        self.user_id_by_session_id the Session ID
-        (as key of this dictionary) and return True"""
+        If the request doesn’t contain the Session ID cookie, return
+        False - you must use self.session_cookie(request) If the
+        Session ID of the request is not linked to any User ID, return
+        False - you must use self.user_id_for_session_id(...) Otherwise,
+        delete in self.user_id_by_session_id the Session ID
+        (as key of this dictionary) and return True
+    """
     from api.v1.app import auth
 
     if auth.destroy_session(request) is False:
         abort(404)
-    
+
     return jsonify({}), 200
