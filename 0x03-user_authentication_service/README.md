@@ -52,3 +52,38 @@ Back-end Authentification<br>
 
 <pre><code>pip3 install bcrypt
 </code></pre>
+
+<!-- Task Body -->
+    <p>In this task you will create a SQLAlchemy model named <code>User</code> for a database table named <code>users</code> (by using the <a href="/rltoken/-a69l-rGqoFdXnnu6qfKdA" title="mapping declaration" target="_blank">mapping declaration</a> of SQLAlchemy). </p>
+
+<p>The model will have the following attributes:</p>
+
+<ul>
+<li><code>id</code>, the integer primary key</li>
+<li><code>email</code>, a non-nullable string</li>
+<li><code>hashed_password</code>, a non-nullable string</li>
+<li><code>session_id</code>, a nullable string</li>
+<li><code>reset_token</code>, a nullable string</li>
+</ul>
+
+<pre><code>bob@dylan:~$ cat main.py
+#!/usr/bin/env python3
+&quot;&quot;&quot;
+Main file
+&quot;&quot;&quot;
+from user import User
+
+print(User.__tablename__)
+
+for column in User.__table__.columns:
+    print(&quot;{}: {}&quot;.format(column, column.type))
+
+bob@dylan:~$ python3 main.py
+users
+users.id: INTEGER
+users.email: VARCHAR(250)
+users.hashed_password: VARCHAR(250)
+users.session_id: VARCHAR(250)
+users.reset_token: VARCHAR(250)
+bob@dylan:~$ 
+</code></pre>
