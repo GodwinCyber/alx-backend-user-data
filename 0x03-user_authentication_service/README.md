@@ -54,7 +54,7 @@ Back-end Authentification<br>
 </code></pre>
 
 <!-- Task Body -->
-    <p>In this task you will create a SQLAlchemy model named <code>User</code> for a database table named <code>users</code> (by using the <a href="/rltoken/-a69l-rGqoFdXnnu6qfKdA" title="mapping declaration" target="_blank">mapping declaration</a> of SQLAlchemy). </p>
+<p>In this task you will create a SQLAlchemy model named <code>User</code> for a database table named <code>users</code> (by using the <a href="/rltoken/-a69l-rGqoFdXnnu6qfKdA" title="mapping declaration" target="_blank">mapping declaration</a> of SQLAlchemy). </p>
 
 <p>The model will have the following attributes:</p>
 
