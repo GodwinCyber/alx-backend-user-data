@@ -87,3 +87,41 @@ users.session_id: VARCHAR(250)
 users.reset_token: VARCHAR(250)
 bob@dylan:~$ 
 </code></pre>
+
+<p>In this task, you will complete the <code>DB</code> class provided below to implement the <code>add_user</code> method.</p>
+
+<pre><code class="python">&quot;&quot;&quot;DB module
+&quot;&quot;&quot;
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.session import Session
+
+from user import Base
+
+
+class DB:
+    &quot;&quot;&quot;DB class
+    &quot;&quot;&quot;
+
+    def __init__(self) -&gt; None:
+        &quot;&quot;&quot;Initialize a new DB instance
+        &quot;&quot;&quot;
+        self._engine = create_engine(&quot;sqlite:///a.db&quot;, echo=True)
+        Base.metadata.drop_all(self._engine)
+        Base.metadata.create_all(self._engine)
+        self.__session = None
+
+    @property
+    def _session(self) -&gt; Session:
+        &quot;&quot;&quot;Memoized session object
+        &quot;&quot;&quot;
+        if self.__session is None:
+            DBSession = sessionmaker(bind=self._engine)
+            self.__session = DBSession()
+        return self.__session
+</code></pre>
+<p>Note that <code>DB._session</code> is a private property and hence should NEVER be used from outside the <code>DB</code> class.</p>
+
+<p>Implement the <code>add_user</code> method, which has two required string arguments: <code>email</code> and <code>hashed_password</code>, and returns a <code>User</code> object. The method should save the user to the database. No validations are required at this stage.</p>
+
