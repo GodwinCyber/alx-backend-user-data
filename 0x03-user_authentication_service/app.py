@@ -27,7 +27,7 @@ def register_users():
     if not email or not password:
         return jsonify({"message": "email and password required"}), 400
     try:
-        user_id = AUTH.register_user(email, password)
+        AUTH.register_user(email, password)
         return jsonify({"email": email, "message": "user created"}), 200
     except ValueError as ve:
         return jsonify({"message": "email already registered"}), 400
@@ -81,6 +81,28 @@ def logout() -> str:
 
     AUTH.destroy_session(user.id)
     return redirect("/")
+
+
+@app.route("/profile", methods=['GET'])
+def profile() -> str:
+    """Get user profile: The end-point should expect a cookie:
+        Implement a profile method to respond to the GET /profile route
+    Args:
+        The request is expected to contain a session_id cookie.
+        Use it to find the user. If the user exist, respond with a
+        200 HTTP status and the following JSON payload:
+        {"email": "<user email>"}
+    case:
+        If the session ID is invalid or the user does not exist,
+        respond with 403 HTTP status
+    """
+    session_id = request.cookies.get("session_id")
+    if not session_id:
+        abort(403)
+    user = AUTH.get_user_from_session_id(session_id)
+    if not user:
+        abort(403)
+    return jsonify({"email": user.email})
 
 
 if __name__ == "__main__":
