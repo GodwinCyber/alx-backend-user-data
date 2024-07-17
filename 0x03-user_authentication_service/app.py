@@ -62,3 +62,25 @@ def login() -> str:
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
+
+@app.route("/sessions", methods=['DELETE'])
+def logout() -> str:
+    """Logout a user: The end-point should expect a cookie:
+        Implement logout function to respond to the DElETE /sessions route
+    Args:
+        The request is expected to contain sesssion
+        ID as cookie with key "session_id"
+    Cases:
+        find the user with requested session ID. If th user exist, destroy
+        the session and redirect the user to GET /. If user does not
+        exist, respond with a 403 HTTP status
+    """
+    session_id = request.cookies.get("session_id")
+    if not session_id:
+        abort(403)
+    user = AUTH.get_user_from_session_id(session_id)
+    if not user:
+        abort(403)
+    AUTH.destroy_session(user_id)
+    return redirect("/")
