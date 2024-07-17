@@ -80,10 +80,13 @@ class DB:
             attribute is passed, raise a ValueError.
         """
         user = self.find_user_by(id=user_id)
+        if user is None:
+            raise ValueError
+
+        cols_keys = User.__table__.columns.keys()
         for key, value in kwargs.items():
-            if key not in User.__table__.columns.keys():
+            if key not in cols_keys:
                 raise ValueError
-        setattr(user, key, value)
+            setattr(user, key, value)
         self._session.commit()
         return None
-
