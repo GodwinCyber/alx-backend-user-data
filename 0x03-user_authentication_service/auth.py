@@ -140,4 +140,3 @@ class Auth:
             return token
         except NoResultFound:
             raise ValueError("User not found")
-        except Exception as e:
