@@ -18,7 +18,11 @@ def hello():
 
 @app.route("/users", methods=['POST'])
 def users():
-    """Register a user"""
+    """Register a user: The end-point should expect two form data
+        fields: "email" and "password". If the user does not exist,
+        the end-point should register it and respond
+        with the following JSON payload:
+    """
     email = request.form.get('email')
     password = request.form.get('password')
     if not email or not password:
