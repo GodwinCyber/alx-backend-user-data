@@ -60,10 +60,6 @@ def login() -> str:
     return response
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-
-
 @app.route("/sessions", methods=['DELETE'])
 def logout() -> str:
     """Logout a user: The end-point should expect a cookie:
@@ -77,8 +73,14 @@ def logout() -> str:
         exist, respond with a 403 HTTP status
     """
     session_id = request.cookies.get("session_id")
+    if not session_id:
+        abort(403)
     user = AUTH.get_user_from_session_id(session_id)
-    if user is None:
+    if not user:
         abort(403)
     AUTH.destroy_session(user_id)
     return redirect("/")
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
