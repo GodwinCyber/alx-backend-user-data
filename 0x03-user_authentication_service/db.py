@@ -6,6 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 from user import Base, User
 
 
@@ -40,4 +42,30 @@ class DB:
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
+        return user
+
+    def find_user_by(self, **kwargs) -> User:
+        """Find a user by a key word argument: l implement the DB.find_user_by
+            method. This method takes in arbitrary keyword arguments and
+            returns the first row found in the users table as filtered by
+            the method’s input arguments. No validation of input arguments
+            required at this point.
+        Note:
+            Make sure that SQLAlchemy’s NoResultFound and InvalidRequestError
+            are raised when no results are found, or when wrong query
+            arguments are passed, respectively.
+        Warning:
+            NoResultFound has been moved from sqlalchemy.orm.exc to
+            sqlalchemy.exc between the version 1.3.x and 1.4.x of SQLAchemy-
+            please make sure you are importing it from sqlalchemy.orm.exc
+        """
+        if not kwargs:
+            raise InvalidRequestError
+        cols_keys = User.__table__.columns.keys()
+        for key, value in kwargs.items():
+            if key not in cols_keys:
+                raise InvalidRequestError
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user is None:
+            raise NoResultFound
         return user
