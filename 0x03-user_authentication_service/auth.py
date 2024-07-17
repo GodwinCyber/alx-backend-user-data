@@ -4,6 +4,7 @@
 import bcrypt
 from user import User, Base
 from db import DB
+from uuid import uuid4
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 
@@ -17,6 +18,14 @@ def _hash_password(password: str) -> bytes:
     if password is None or password == "":
         raise ValueError("Password cannot be empty")
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+
+def _generate_uuid() -> str:
+    """Generate a UUID4: implement a _generate_uuid function in the auth
+        module. The function should return a string representation of a
+        new UUID. Use the uuid module.
+    """
+    return str(UUID4())
 
 
 class Auth:
