@@ -105,5 +105,28 @@ def profile() -> str:
     return jsonify({"email": user.email})
 
 
+@app.route("/reset_password", methods=['POST'])
+def get_reset_password() -> str:
+    """Get reset password: The end-point should expect a JSON payload:
+        implement a get_reset_password method tpo respond to the
+        POST /reset_password route
+    Args:
+        The request ie expected to contain form data with the "email" field
+    Case:
+        If the email is not registered, respond with a 403 status code. Else
+        generate a token and respond with a 200 HTTP status and
+        and following JSON payload
+        {"email": "<user email>", "reset_token": "<reset token>"}
+    """
+    email = request.form.get("email")
+    if not email:
+        abort(400)
+    try:
+        token = AUTH.get_reset_password_token(email)
+        return jsonify({"email": email, "reset_token": token}), 200
+    except ValueError:
+        abort(403)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
