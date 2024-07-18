@@ -127,6 +127,30 @@ def get_reset_password() -> str:
     except ValueError:
         abort(403)
 
+@app.route("/reset_password", methods=['PUT'])
+def update_password() -> str:
+    """Update password: The end-point should expect a JSON payload:
+        Implement the update_password function in the app module to
+        respond to the PUT /reset_password route.
+    Args:
+        The request is expected to contain form data with fields
+        "email", "reset_token" and "new_password".Update the password.
+        If the token is invalid, catch the exception and respond
+        with a 403 HTTP code. If the token is valid, respond with a
+        200 HTTP code and the following JSON payload:
+        {"email": "<user email>", "message": "Password updated"}
+    """
+    email = request.form.get("email")
+    reset_token = request.form.get("reset_token")
+    new_password = request.form.get("new_password")
+    if not email or not reset_token or not new_password:
+        abort(400)
+    try:
+        AUTH.update_password(email, reset_token, new_password)
+        return jsonify({"email": email, "message": "Password updated"}), 200
+    except ValueError:
+        abort(403)
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
