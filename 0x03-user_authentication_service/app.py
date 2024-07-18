@@ -134,23 +134,22 @@ def update_password() -> str:
         respond to the PUT /reset_password route.
     Args:
         The request is expected to contain form data with fields
-        "email", "reset_token" and "new_password".Update the password.
+        "email", "reset_token" and "new_password". Update the password.
         If the token is invalid, catch the exception and respond
         with a 403 HTTP code. If the token is valid, respond with a
         200 HTTP code and the following JSON payload:
         {"email": "<user email>", "message": "Password updated"}
     """
-    try:
-        email = request.form.get("email")
-        reset_token = request.form.get("reset_token")
-        new_password = request.form.get("new_password")
-    except KeyError:
+    email = request.form.get("email")
+    reset_token = request.form.get("reset_token")
+    new_password = request.form.get("new_password")
+    if not email or not reset_token or not new_password:
         abort(400)
     try:
         AUTH.update_password(reset_token, new_password)
+        return jsonify({"email": email, "message": "Password updated"}), 200
     except ValueError:
         abort(403)
-    return jsonify({"email": email, "message": "Password updated"}), 200
 
 
 if __name__ == "__main__":
